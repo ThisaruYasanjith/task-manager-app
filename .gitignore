@@ -1,12 +1,14 @@
 # IDE & Tooling
-.idea/                # Since you are using IntelliJ
+.idea/
 *.iml
 .vscode/
 .DS_Store
+out/
+gen/
 
 # Frontend (Angular)
-frontend/node_modules/ # Crucial: avoids uploading thousands of dependencies
-frontend/dist/         # Compiled Angular code
+frontend/node_modules/
+frontend/dist/
 frontend/.angular/
 
 # Docker (Optional Bonus)
