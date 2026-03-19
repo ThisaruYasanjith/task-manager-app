@@ -1,6 +1,6 @@
 package com.example.taskmanager.service;
 
-import com.example.taskmanager.dto.TaskResponse;
+import com.example.taskmanager.dto.TaskRequestResponse;
 import com.example.taskmanager.model.Task;
 import com.example.taskmanager.repository.TaskRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,13 +17,19 @@ public class TaskService {
     private final TaskRepository taskRepository;
 
     @Transactional(readOnly = true)
-    public List<TaskResponse> getAllTasks() {
+    public List<TaskRequestResponse> getAllTasks() {
         return taskRepository.findAll().stream()
                 .map(this::mapToResponse)
                 .toList();
     }
 
-    public TaskResponse createTask(TaskResponse request) {
+    public TaskRequestResponse getTaskById(Long id) {
+        return taskRepository.findById(id)
+                .map(this::mapToResponse) // Using your existing mapping helper
+                .orElseThrow(() -> new RuntimeException("Task not found with id: " + id));
+    }
+
+    public TaskRequestResponse createTask(TaskRequestResponse request) {
         Task task = Task.builder()
                 .title(request.title())
                 .description(request.description())
@@ -32,7 +38,7 @@ public class TaskService {
         return mapToResponse(taskRepository.save(task));
     }
 
-    public TaskResponse updateTask(Long id, TaskResponse request) {
+    public TaskRequestResponse updateTask(Long id, TaskRequestResponse request) {
         return taskRepository.findById(id)
                 .map(task -> {
                     task.setTitle(request.title());
@@ -50,8 +56,8 @@ public class TaskService {
         taskRepository.deleteById(id);
     }
 
-    private TaskResponse mapToResponse(Task task) {
-        return new TaskResponse(
+    private TaskRequestResponse mapToResponse(Task task) {
+        return new TaskRequestResponse(
                 task.getId(),
                 task.getTitle(),
                 task.getDescription(),

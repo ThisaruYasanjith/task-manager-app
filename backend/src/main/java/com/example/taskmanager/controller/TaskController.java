@@ -1,6 +1,6 @@
 package com.example.taskmanager.controller;
 
-import com.example.taskmanager.dto.TaskResponse;
+import com.example.taskmanager.dto.TaskRequestResponse;
 import com.example.taskmanager.service.TaskService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,18 +18,23 @@ public class TaskController {
     private final TaskService taskService;
 
     @GetMapping
-    public List<TaskResponse> getAll() {
+    public List<TaskRequestResponse> getAll() {
         return taskService.getAllTasks();
+    }
+
+    @GetMapping("/{id}")
+    public TaskRequestResponse getById(@PathVariable Long id) {
+        return taskService.getTaskById(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public TaskResponse create(@Valid @RequestBody TaskResponse request) {
+    public TaskRequestResponse create(@Valid @RequestBody TaskRequestResponse request) {
         return taskService.createTask(request);
     }
 
     @PutMapping("/{id}")
-    public TaskResponse update(@PathVariable Long id, @Valid @RequestBody TaskResponse request) {
+    public TaskRequestResponse update(@PathVariable Long id, @Valid @RequestBody TaskRequestResponse request) {
         return taskService.updateTask(id, request);
     }
 
