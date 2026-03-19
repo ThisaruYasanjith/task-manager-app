@@ -1,0 +1,14 @@
+# IDE & Tooling
+.idea/                # Since you are using IntelliJ
+*.iml
+.vscode/
+.DS_Store
+
+# Frontend (Angular)
+frontend/node_modules/ # Crucial: avoids uploading thousands of dependencies
+frontend/dist/         # Compiled Angular code
+frontend/.angular/
+
+# Docker (Optional Bonus)
+.env
+docker-compose.override.yml
