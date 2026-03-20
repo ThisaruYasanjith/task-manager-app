@@ -25,7 +25,7 @@ public class TaskService {
 
     public TaskRequestResponse getTaskById(Long id) {
         return taskRepository.findById(id)
-                .map(this::mapToResponse) // Using your existing mapping helper
+                .map(this::mapToResponse) 
                 .orElseThrow(() -> new RuntimeException("Task not found with id: " + id));
     }
 
