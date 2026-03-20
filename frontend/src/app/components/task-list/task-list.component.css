@@ -1,6 +1,9 @@
 .kanban-col {
   background-color: #ebedef;
-  min-height: 80vh;
+  
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 .task-card {
   cursor: pointer;
