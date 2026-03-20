@@ -1,0 +1,11 @@
+.kanban-col {
+  background-color: #ebedef;
+  min-height: 80vh;
+}
+.task-card {
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+.task-card:hover {
+  transform: scale(1.02);
+}

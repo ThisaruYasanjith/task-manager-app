@@ -1,0 +1,34 @@
+<div class="container mt-5">
+  <div class="card shadow border-0 mx-auto" style="max-width: 500px">
+    <div class="card-body p-4">
+      <h4 class="fw-bold mb-4">{{ isEdit ? 'Update Task' : 'New Task' }}</h4>
+      <form [formGroup]="taskForm" (ngSubmit)="save()">
+        <div class="mb-3">
+          <label class="form-label fw-bold">Title</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="title"
+            [class.is-invalid]="taskForm.get('title')?.touched && taskForm.get('title')?.invalid"
+          />
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-bold">Description</label>
+          <textarea class="form-control" formControlName="description" rows="3"></textarea>
+        </div>
+        <div class="mb-4">
+          <label class="form-label fw-bold">Status</label>
+          <select class="form-select" formControlName="status">
+            <option value="TO_DO">To Do</option>
+            <option value="IN_PROGRESS">In Progress</option>
+            <option value="DONE">Done</option>
+          </select>
+        </div>
+        <div class="d-flex gap-2">
+          <button class="btn btn-primary px-4" [disabled]="taskForm.invalid">Save</button>
+          <button type="button" class="btn btn-light" routerLink="/">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
