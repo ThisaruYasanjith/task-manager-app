@@ -1,0 +1,93 @@
+<div class="container-fluid py-4 bg-light" style="min-height: 100vh">
+  @if (errorMessage()) {
+    <div class="d-flex flex-column align-items-center justify-content-center mt-5">
+      <div
+        class="alert alert-danger shadow-sm border-0 text-center p-5"
+        role="alert"
+        style="max-width: 600px"
+      >
+        <i class="bi bi-exclamation-triangle-fill text-danger mb-3" style="font-size: 3rem"></i>
+        <h4 class="fw-bold">Connection Error</h4>
+        <p class="mb-4">{{ errorMessage() }}</p>
+      </div>
+    </div>
+  } @else {
+    <div class="d-flex justify-content-between align-items-center mb-4 px-3">
+      <h2 class="fw-bold text-dark">Task List</h2>
+      <button class="btn btn-primary shadow-sm" routerLink="/add-task">
+        <i class="bi bi-plus-lg me-1"></i> Add Task
+      </button>
+    </div>
+
+    <div class="row g-3">
+      <div class="row g-3 align-items-start">
+        @for (status of ['TO_DO', 'IN_PROGRESS', 'DONE']; track status) {
+          <div class="col-12 col-lg-4 mb-3">
+            <div
+              class="kanban-col p-3 rounded-3 shadow-sm border-top border-4"
+              [ngClass]="{
+                'border-info': status === 'TO_DO',
+                'border-warning': status === 'IN_PROGRESS',
+                'border-success': status === 'DONE',
+              }"
+            >
+              <h6 class="text-uppercase fw-bold text-muted mb-3 small">
+                {{ status.replace('_', ' ') }}
+              </h6>
+
+              @for (task of filteredTasks(); track task.id) {
+                @if (task.status === status) {
+                  <div class="card mb-3 border-0 shadow-sm task-card">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between align-items-start mb-1">
+                        <h6 class="fw-bold mb-0">{{ task.title }}</h6>
+                        <span
+                          class="badge rounded-pill text-dark border-0"
+                          [ngClass]="{
+                            'bg-info-subtle': status === 'TO_DO',
+                            'bg-warning-subtle': status === 'IN_PROGRESS',
+                            'bg-success-subtle': status === 'DONE',
+                          }"
+                          style="font-size: 0.65rem"
+                        >
+                          {{ status }}
+                        </span>
+                      </div>
+
+                      <p class="text-muted small mb-2">{{ task.description }}</p>
+
+                      <div class="text-muted mb-2" style="font-size: 0.7rem">
+                        <i class="bi bi-clock me-1"></i> {{ task.createdAt | date: 'mediumDate' }}
+                      </div>
+
+                      <div class="d-flex justify-content-end gap-2 pt-2 border-top">
+                        <button
+                          class="btn btn-sm btn-outline-primary border-0"
+                          [routerLink]="['/edit-task', task.id]"
+                        >
+                          <i class="bi bi-pencil"></i>
+                        </button>
+                        <button
+                          class="btn btn-sm btn-outline-danger border-0"
+                          (click)="deleteTask(task.id)"
+                        >
+                          <i class="bi bi-trash"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                }
+              }
+
+              @if (!hasTasks(status)) {
+                <div class="text-center py-4 border border-dashed rounded-3 bg-white bg-opacity-50">
+                  <p class="text-muted small mb-0">No tasks in this list</p>
+                </div>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  }
+</div>

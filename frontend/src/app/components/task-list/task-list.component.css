@@ -1,0 +1,13 @@
+.kanban-col {
+  background-color: #ebedef;
+
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.task-card {
+  transition: transform 0.1s;
+}
+.task-card:hover {
+  transform: scale(1.02);
+}
